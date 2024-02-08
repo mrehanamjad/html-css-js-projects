@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Password Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: monospace;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        background-image: radial-gradient(
+          circle farthest-corner at 17.1% 22.8%,
+          rgba(226, 24, 24, 1) 0%,
+          rgba(160, 6, 6, 1) 90%
+        );
+      }
+      .container {
+        padding: 0 0 0 3%;
+        width: 700px;
+        height: 300px;
+        background-color: rgba(255, 255, 255, 0.51);
+        border: 1px solid;
+        border-radius: 20px;
+        box-shadow: 6px 8px 3px rgba(0, 0, 0, 0.537);
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 1.6rem;
+      }
+      .text {
+        font-size: 2rem;
+        position: relative;
+        height: 22%;
+        width: 80%;
+        border: 2px solid;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .text i {
+        position: absolute;
+        right: 4%;
+        font-size: 2.7rem;
+        color: gray;
+      }
+      .text input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        border: none;
+        background: none;
+        font-size: 2rem;
+        margin-left: 3%;
+      }
+      .text input:disabled {
+        color: black;
+      }
+      button {
+        padding: 2%;
+        width: 20%;
+        font-size: 1.5rem;
+      }
+      .alert {
+        padding: 20px 30px;
+        position: fixed;
+        bottom: 4%;
+        right: -400px;
+        width: max-content;
+        background-color: rgba(233, 90, 90, 0.622);
+        border-radius: 10px;
+        font-size: 2rem;
+        transform: scaleX(0);
+        transition: all 1s linear;
+      }
+      .alert-appear {
+        right: 10px;
+        background-color: rgb(136, 255, 178);
+        right: 10px;
+        transform: scaleX(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Random Password Generator</h1>
+      <div class="text">
+        <input type="text" value="Create Password" disabled />
+        <i class="fa-regular fa-copy" onclick="copyClip()"></i>
+      </div>
+      <button onclick="getPass()">Generate</button>
+    </div>
+    <div class="alert">V;hSP$r]?912.x_copied</div>
+
+    <script>
+      function getPass() {
+        let finalPass = "";
+        const allCharNum = `QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-=[]\';/.,~!@#$%^&*()_+{}|:"<>?`;
+        let y = Math.floor(6 + Math.random() * (16 - 6));
+        for (let i = 0; i <= y; i++) {
+          let x = Math.floor(Math.random() * allCharNum.length);
+          finalPass += allCharNum[x];
+        }
+        let text = document.querySelector(".text input");
+        text.value = finalPass;
+      }
+
+      function popup(pass) {
+        let Alert = document.querySelector(".alert");
+        Alert.innerHTML = `${pass}_Copied`;
+        Alert.classList.add("alert-appear");
+        setTimeout(() => {
+          Alert.classList.remove("alert-appear");
+        }, 4000);
+      }
+      function copyClip() {
+        // Get the text field
+        var copyText = document.querySelector(".text input");
+        copyText.disabled = false;
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        copyText.disabled = true;
+        // alert the copied text
+        popup(copyText.value);
+      }
+    </script>
+  </body>
+</html>
