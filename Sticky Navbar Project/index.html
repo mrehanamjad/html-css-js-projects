@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Navbar</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body{
+        transition: all 1s linear;
+      }
+      header {
+        position: fixed;
+        height: 10vh;
+        width: 100%;
+        background-color: wheat;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      header p {
+        color: rgb(85, 85, 255);
+        font-size: 1.4rem;
+      }
+      header p sub {
+        color: red;
+      }
+      header ul li {
+        list-style: none;
+        display: inline;
+        margin: 0 1rem;
+      }
+      header ul li a {
+        text-decoration: none;
+        color: black;
+        transition: all 0.4s ease-in-out;
+      }
+      header ul li a:hover {
+        color: rgb(255, 166, 0);
+      }
+      .home {
+        height: 100vh;
+        width: 100wh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    background-size: cover;
+      background: url(https://source.unsplash.com/1260x600/?train) ;
+    }
+    .home h1{
+        color: black;
+        font-size: 4rem;
+        background-color: rgba(245, 222, 179, 0.662);
+    }
+    .blog h2,.blog p{
+        margin: 10px 30px;
+
+    }
+    .blog img{
+        float: right;
+        margin: 20px;
+        border-radius: 50%;
+        padding: 10px;
+        /* background-color: rgba(56, 54, 54, 0.547); */
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p>StickyNav<sub>.com</sub></p>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#blog">Bolg</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </header>
+    <main>
+      <div class="home" id="home">
+          <h1>Welcome To Our Website</h1>
+        </div>
+        <div class="blog" id="blog">
+            <h2>This is our Blog Post</h2>
+            <img src="https://source.unsplash.com/200x230/?train" alt="">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias error incidunt, sapiente eius dicta deleniti enim officia aut praesentium quo quod et numquam ipsa quas sint culpa, molestiae quibusdam esse veniam tenetur assumenda molestias dolorum? Nemo suscipit mollitia rerum natus ipsa vitae voluptatem. Molestiae modi voluptatibus recusandae facilis facere accusamus voluptatum odit, officiis illo id maiores blanditiis? Quibusdam porro molestias minima quasi reiciendis corrupti culpa iste error. At tempora nihil et quod fugit in, voluptatem quae dolorum, neque aspernatur cumque ratione delectus iure harum? Saepe, blanditiis dolorum eveniet adipisci at laboriosam sequi libero quod esse, voluptate cum commodi? Laborum provident, illum pariatur veritatis in eligendi, architecto beatae assumenda, ea quas accusamus repellendus! Accusamus qui vero doloribus non exercitationem atque beatae autem id nesciunt ipsa fugit hic, adipisci corporis 
+        voluptates magni, recusandae esse unde dolor mollitia blanditiis sunt dicta! Explicabo tenetur ab nostrum, dolorum iure sed dolore doloremque, accusantium laudantium quo sapiente quibusdam omnis ipsum aliquam nesciunt, autem harum. Voluptatum incidunt at est aut omnis temporibus sapiente esse aspernatur explicabo cum suscipit, eius officia deserunt fuga voluptates. Ea, voluptate tenetur id sunt officia praesentium eius. Praesentium ipsam minima reprehenderit voluptas. Quidem eaque, facilis atque magnam ut quasi blanditiis magni ipsa iure?</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Suscipit possimus in, ex corporis reiciendis voluptatum similique, nemo et consequuntur modi quae neque, esse perspiciatis id voluptas dolore vel illum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur, maiores? Quibusdam necessitatibus rerum sunt quae nemo corrupti obcaecati veritatis, quidem a. Recusandae corporis ullam veritatis. Itaque, veritatis. Numquam, Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta nisi optio, doloremque provident commodi cumque. Qui vitae quos magnam autem obcaecati fugiat, quae corporis voluptatum dicta, tenetur corrupti at culpa.
+        Nisi ad modi doloremque quisquam adipisci iusto, commodi laboriosam at corporis harum id quasi maiores laudantium ratione in ipsam eveniet fugiat explicabo sed eligendi! Voluptate quibusdam vitae consequuntur eos nihil.
+        Nostrum ducimus odio dolor temporibus harum totam expedita, nemo vitae sunt, atque eveniet soluta debitis dicta quasi minima corporis officiis natus quisquam, unde quis nesciunt rem cupiditate. At, dicta cumque. necessitatibus ipsum.</earum></p>
+        <img style="float: left;" src="https://source.unsplash.com/200x230/?train,water" alt="">
+        <p style="text-align: end;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, fuga quo sit ullam aut repudiandae, eaque iure consequatur unde veritatis hic autem quod commodi voluptatibus, vel aspernatur assumenda asperiores a dolores sint adipisci praesentium accusamus obcaecati quaerat? Consectetur dolor ullam vitae quae assumenda, maxime dignissimos ducimus debitis nihil obcaecati adipisci? Perspiciatis porro libero eos obcaecati minima. Quia porro ratione pariatur deserunt recusandae, dolorem fuga possimus dolorum in id ipsa accusantium, ea ut rerum mollitia voluptatum non suscipit. At veniam placeat ratione nesciunt labore distinctio voluptatum laborum, ab, accusantium est tempore iste animi corrupti corporis, architecto dolorem? Adipisci tempora, sequi atque ab consequatur corporis eligendi minima ratione doloribus? Illo, facere quisquam. Dolorem quisquam expedita nihil atque consequatur exercitationem molestiae! Maxime, repudiandae quaerat. Eveniet debitis adipisci cum quidem hic sit natus facilis repellat recusandae. Corrupti distinctio deleniti corporis. Optio dolorum velit hic, quis architecto distinctio sunt consequatur ratione voluptas nulla deserunt quisquam dolores sit inventore delectus molestiae suscipit quod minima modi. Sunt et rem eligendi neque. Illum aliquid repudiandae dicta accusamus rerum dolorum dolor ipsum quos quisquam, aperiam itaque sit quasi animi molestiae doloremque aut provident, debitis eligendi. Officia tempora eligendi vero. Natus amet cumque ducimus sint, enim nobis. Sint totam veniam inventore explicabo, autem nesciunt quidem reiciendis! Rem sunt aperiam repellendus omnis explicabo accusamus, deleniti perferendis eveniet maiores reiciendis corporis cum esse enim error, tenetur rerum repudiandae? Accusamus, omnis? Facilis vitae vero odio tempora. Esse dolore, laboriosam ducimus asperiores dolor vitae aut autem corrupti tenetur officia atque sit necessitatibus iste, fugiat soluta amet perspiciatis nesciunt quaerat fugit similique ad est. Quibusdam vitae ipsa quasi, corrupti at nihil impedit iure magni et dolores animi laudantium rerum obcaecati a ratione natus veritatis quidem ea quod voluptatibus repellendus omnis hic eos? Minus ut ipsum nemo quidem cum ullam ab odio asperiores? Esse dolore obcaecati accusantium voluptas. Molestias minus cum nostrum atque eos tempora maxime voluptatibus, temporibus suscipit, numquam quidem, porro nobis. Earum voluptates facilis modi ex tenetur! Vel, nobis voluptate incidunt facere illum nulla iure doloribus facilis odio veritatis repudiandae aspernatur ea impedit maxime, ullam praesentium sequi nisi, repellendus commodi consectetur rerum recusandae delectus reiciendis velit. Ea tenetur rem totam cum maxime voluptatibus alias!</p>
+      </div>
+
+    </main>
+    <script>
+      let nav=document.querySelector("header");
+      let body=document.querySelector("body")
+  
+      window.onscroll = function() {myFunction()};
+
+function myFunction() {
+  if ( document.documentElement.scrollTop > 620) {
+    nav.style.backgroundColor=" rgba(56, 54, 54, 0.547)"
+  } else {
+  nav.style.backgroundColor="wheat"
+  }
+}
+
+
+    </script>
+  </body>
+</html>
+
+

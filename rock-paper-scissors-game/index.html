@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* flex-wrap: wrap; */
+        gap: 10%;
+        text-align: center;
+      }
+      h1{
+        font-size: 3rem;
+      }
+      h2{
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+      .btn {
+        height: 100px;
+        width: 100px;
+        margin: 5px;
+        background-size: cover;
+        border: none;
+        outline: none;
+        border-radius: 50%;
+        box-shadow: 0 0 12px black;
+      }
+      #rock {
+        background-image: url(./images/rock.jpg);
+      }
+      #paper {
+        background-image: url(./images/paper.png);
+      }
+      #scissor {
+        background-image: url(./images/seacer.png);
+      }
+      .score {
+        width: 100%;
+        margin: 60px 0;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-wrap: wrap;
+        font-size: 1.5rem;
+        gap: 6%;
+      }
+      i{
+        width: 100%;
+        background-color: rgb(255, 32, 32);
+        margin-bottom: 15px;
+        color: rgb(255, 255, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Rock Paper Scissors Game</h1>
+    <main>
+      <h2>Choose Your Move</h2>
+      <div class="container">
+        <button class="btn" id="rock"></button>
+        <button class="btn" id="paper"></button>
+        <button class="btn" id="scissor"></button>
+      </div>
+      <div class="score">
+          <i>Lets Start</i>
+        <p>
+          Your Score: <span id="ys"><b>0</b></span>
+        </p>
+        <p>
+          Computer score: <span id="cs"><b>0</b></span>
+        </p>
+      </div>
+    </main>
+
+    <script>
+        let rock=document.querySelector("#rock"); // 1
+        let paper=document.querySelector("#paper"); // 2
+        let scissor=document.querySelector("#scissor"); // 3
+        let i=document.querySelector(".score i")
+        let btns =document.querySelectorAll(".btn");
+        let ysd=document.querySelector("#ys")
+        let csd=document.querySelector("#cs")
+
+        let a; //you
+        let b; //computer
+        let ys=0; // your score
+        let cs=0; // computer score
+        function whoWins(a,b){
+            if((a==0 && b==0) || (a==1 && b==1) || (a==2 && b==2)){
+                i.innerHTML="Draw!!"
+            }else if ((a==0 && b==1) || (a==1 && b==2) || (a==2 == b==0)) {
+                cs++;
+                i.innerHTML="Computer Win!"
+                csd.innerHTML=`<b>${cs}</b>`
+            }else{
+                ys++;
+                i.innerHTML="You Win!"
+                ysd.innerHTML=`<b>${ys}</b>`
+
+            }
+        }
+
+        Array.from(btns).forEach((e,f)=>{
+            e.addEventListener("click",()=>{
+                a=f;
+                b=Math.floor(Math.random() * 3);
+                whoWins(a,b);
+            })
+        })
+
+
+    </script>
+  </body>
+</html>
+
+
