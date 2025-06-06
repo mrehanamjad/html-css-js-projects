@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen Notepad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        /* Light mode styles */
+        body.light-mode {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        }
+
+        .notepad-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .header {
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode .header {
+            background: rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .theme-toggle:active {
+            transform: rotate(15deg) scale(0.95);
+        }
+
+        .theme-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .font-size-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 15px;
+        }
+
+        .font-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .font-btn:active {
+            transform: scale(0.95);
+        }
+
+        .font-size-display {
+            font-size: 11px;
+            color: white;
+            opacity: 0.9;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .word-count {
+            font-size: 12px;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .clear-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .textarea-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .note-textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .note-textarea {
+            background: rgba(30, 30, 30, 0.95);
+            color: #e0e0e0;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .light-mode .note-textarea {
+            background: rgba(255, 255, 255, 0.98);
+            color: #222;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .note-textarea::placeholder {
+            color: #999;
+            font-style: italic;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .note-textarea::placeholder {
+            color: #666;
+        }
+
+        .light-mode .note-textarea::placeholder {
+            color: #888;
+        }
+
+        .note-textarea:focus {
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode .note-textarea:focus {
+            background: rgba(30, 30, 30, 0.98);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .light-mode .note-textarea:focus {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Auto-save indicator */
+        .save-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+
+        .save-indicator.show {
+            opacity: 1;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .note-textarea {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 10px 15px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .header-controls {
+                gap: 15px;
+            }
+
+            .theme-toggle {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .font-size-controls {
+                gap: 6px;
+                padding: 3px 6px;
+            }
+
+            .font-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="notepad-container">
+        <div class="header">
+            <h1>NOTEPAD</h1>
+            <div class="header-controls">
+                <button class="clear-btn" id="shortcutsBtn">Shortcuts</button>
+                <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <div class="font-size-controls">
+                    <button class="font-btn" id="decreaseFont" title="Decrease font size">A-</button>
+                    <span class="font-size-display" id="fontSizeDisplay">16px</span>
+                    <button class="font-btn" id="increaseFont" title="Increase font size">A+</button>
+                </div>
+                <div class="word-count" id="wordCount">0 words</div>
+                <button class="clear-btn" id="clearBtn">Clear All</button>
+            </div>
+        </div>
+
+        <div class="textarea-container">
+            <textarea class="note-textarea" id="noteTextarea"
+                placeholder="Start typing your thoughts here... Your notes will be automatically saved as you type."
+                spellcheck="true"></textarea>
+            <div class="save-indicator" id="saveIndicator">Saved</div>
+        </div>
+    </div>
+
+    <div id="shortcutsModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center;">
+        <div
+            style="background:white; padding:20px 30px; border-radius:10px; max-width:500px; width:90%; color:#333; position:relative;">
+            <h2 style="margin-bottom:10px;">Keyboard Shortcuts</h2>
+            <ul style="line-height:1.8; font-size:14px;">
+                <li><strong>Ctrl + T</strong>: Toggle Theme</li>
+                <li><strong>Ctrl + A</strong>: Select All Text</li>
+                <li><strong>Ctrl + + / = </strong>: Increase Font</li>
+                <li><strong>Ctrl + -</strong>: Decrease Font</li>
+                <li><strong>Ctrl + 0</strong>: Reset Font</li>
+                <li><strong>Ctrl + Delete</strong>: Clear All</li>
+                <li><strong>ESC</strong>: Blur Textarea</li>
+            </ul>
+            <button id="closeShortcuts"
+                style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:18px; cursor:pointer">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        let saveTimeout;
+        const STORAGE_KEY = 'fullscreen-notepad-content';
+        const FONT_SIZE_KEY = 'fullscreen-notepad-fontsize';
+        const THEME_KEY = 'fullscreen-notepad-theme';
+        let currentFontSize = 16; // Default font size
+        let currentTheme = 'default'; // default, dark, light
+
+        const textarea = document.getElementById('noteTextarea');
+        const wordCount = document.getElementById('wordCount');
+        const clearBtn = document.getElementById('clearBtn');
+        const saveIndicator = document.getElementById('saveIndicator');
+        const increaseFontBtn = document.getElementById('increaseFont');
+        const decreaseFontBtn = document.getElementById('decreaseFont');
+        const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+
+        // Load saved note from localStorage
+        function loadNote() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY) || '';
+                textarea.value = saved;
+                updateWordCount();
+            } catch (error) {
+                console.warn('Could not load note from localStorage:', error);
+                textarea.value = '';
+                updateWordCount();
+            }
+        }
+
+        // Load and apply saved font size
+        function loadFontSize() {
+            try {
+                const savedSize = localStorage.getItem(FONT_SIZE_KEY);
+                if (savedSize) {
+                    currentFontSize = parseInt(savedSize);
+                } else {
+                    currentFontSize = 16; // Default
+                }
+                applyFontSize();
+            } catch (error) {
+                console.warn('Could not load font size from localStorage:', error);
+                currentFontSize = 16;
+                applyFontSize();
+            }
+        }
+
+        // Apply font size to textarea
+        function applyFontSize() {
+            textarea.style.fontSize = currentFontSize + 'px';
+            fontSizeDisplay.textContent = currentFontSize + 'px';
+        }
+
+        // Save font size to localStorage
+        function saveFontSize() {
+            try {
+                localStorage.setItem(FONT_SIZE_KEY, currentFontSize.toString());
+            } catch (error) {
+                console.warn('Could not save font size to localStorage:', error);
+            }
+        }
+
+        // Increase font size
+        function increaseFontSize() {
+            if (currentFontSize < 32) {
+                currentFontSize += 2;
+                applyFontSize();
+                saveFontSize();
+            }
+        }
+
+        // Load and apply saved theme
+        function loadTheme() {
+            try {
+                const savedTheme = localStorage.getItem(THEME_KEY);
+                currentTheme = savedTheme || 'light'; // default to light
+                applyTheme();
+            } catch (error) {
+                console.warn('Could not load theme from localStorage:', error);
+                currentTheme = 'light';
+                applyTheme();
+            }
+        }
+
+        // Apply theme to body
+        function applyTheme() {
+            document.body.classList.remove('dark-mode', 'light-mode');
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.textContent = '☀️';
+                themeToggle.title = 'Switch to light mode';
+            } else if (currentTheme === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.textContent = '🌙';
+                themeToggle.title = 'Switch to dark mode';
+            }
+        }
+
+        // Save theme to localStorage
+        function saveTheme() {
+            try {
+                localStorage.setItem(THEME_KEY, currentTheme);
+            } catch (error) {
+                console.warn('Could not save theme to localStorage:', error);
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : currentTheme === 'dark' ? 'light' : 'light';
+            applyTheme();
+            saveTheme();
+        }
+
+        // Decrease font size
+        function decreaseFontSize() {
+            if (currentFontSize > 10) {
+                currentFontSize -= 2;
+                applyFontSize();
+                saveFontSize();
+            }
+        }
+        function decreaseFontSize() {
+            if (currentFontSize > 10) {
+                currentFontSize -= 2;
+                applyFontSize();
+                saveFontSize();
+            }
+        }
+
+        // Update word count
+        function updateWordCount() {
+            const text = textarea.value.trim();
+            const words = text === '' ? 0 : text.split(/\s+/).length;
+            const chars = text.length;
+            wordCount.textContent = `${words} words, ${chars} chars`;
+        }
+
+        // Show save indicator
+        function showSaveIndicator() {
+            saveIndicator.classList.add('show');
+            setTimeout(() => {
+                saveIndicator.classList.remove('show');
+            }, 1500);
+        }
+
+        // Auto-save function
+        function autoSave() {
+            try {
+                localStorage.setItem(STORAGE_KEY, textarea.value);
+                showSaveIndicator();
+            } catch (error) {
+                console.warn('Could not save note to localStorage:', error);
+                // Show error indicator instead of success
+                saveIndicator.textContent = 'Save Error';
+                saveIndicator.style.background = 'rgba(244, 67, 54, 0.9)';
+                saveIndicator.classList.add('show');
+                setTimeout(() => {
+                    saveIndicator.classList.remove('show');
+                    saveIndicator.textContent = 'Saved';
+                    saveIndicator.style.background = 'rgba(76, 175, 80, 0.9)';
+                }, 2000);
+            }
+        }
+
+        // Event listeners
+        textarea.addEventListener('input', function () {
+            updateWordCount();
+
+            // Clear existing timeout
+            clearTimeout(saveTimeout);
+
+            // Set new timeout for auto-save
+            saveTimeout = setTimeout(autoSave, 1000);
+        });
+
+        // Theme toggle
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Font size controls
+        increaseFontBtn.addEventListener('click', increaseFontSize);
+        decreaseFontBtn.addEventListener('click', decreaseFontSize);
+
+        // Clear all text
+        clearBtn.addEventListener('click', function () {
+            if (textarea.value.trim() !== '') {
+                if (confirm('Are you sure you want to clear all text? This action cannot be undone.')) {
+                    textarea.value = '';
+                    try {
+                        localStorage.removeItem(STORAGE_KEY);
+                    } catch (error) {
+                        console.warn('Could not clear localStorage:', error);
+                    }
+                    updateWordCount();
+                    textarea.focus();
+                }
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+A or Cmd+A to select all
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                e.preventDefault();
+                textarea.select();
+            }
+
+            // Ctrl+T to toggle theme
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+                e.preventDefault();
+                toggleTheme();
+            }
+
+            // Ctrl+Plus or Ctrl+Equals to increase font size
+            if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) {
+                e.preventDefault();
+                increaseFontSize();
+            }
+
+            // Ctrl+Minus to decrease font size
+            if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+                e.preventDefault();
+                decreaseFontSize();
+            }
+
+            // Ctrl+0 to reset font size
+            if ((e.ctrlKey || e.metaKey) && e.key === '0') {
+                e.preventDefault();
+                currentFontSize = 16;
+                applyFontSize();
+                saveFontSize();
+            }
+            // Ctrl+Delete or Cmd+Delete to clear all
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Delete') {
+                e.preventDefault();
+                clearBtn.click();
+            }
+
+            // ESC to blur textarea
+            if (e.key === 'Escape') {
+                textarea.blur();
+            }
+        });
+
+        // Prevent zoom on mobile
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        });
+
+        // Auto-focus on load
+        window.addEventListener('load', function () {
+            loadNote();
+            loadFontSize();
+            loadTheme();
+            textarea.focus();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function () {
+            // Ensure textarea maintains focus if it was focused
+            if (document.activeElement === textarea) {
+                setTimeout(() => textarea.focus(), 100);
+            }
+        });
+
+
+        // SHORTCUT MODAL logic
+        const shortcutsBtn = document.getElementById('shortcutsBtn');
+        const shortcutsModal = document.getElementById('shortcutsModal');
+        const closeShortcuts = document.getElementById('closeShortcuts');
+
+        shortcutsBtn.addEventListener('click', () => {
+            shortcutsModal.style.display = 'flex';
+        });
+        closeShortcuts.addEventListener('click', () => {
+            shortcutsModal.style.display = 'none';
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                shortcutsModal.style.display = 'none';
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
