@@ -20,9 +20,13 @@ A beautifully designed full-screen Notepad web application with light/dark theme
   Instantly clear your note with a single click.
 
 - 🎹 **Keyboard Shortcuts**
-  - `Ctrl + T` – Toggle theme  
-  - `Ctrl + A` – Select all text  
-  - *(You can add more shortcuts in the modal)*
+  - `Ctrl + T`: Toggle Theme
+  - `Ctrl + A`: Select All Text
+  - `Ctrl + + / =` : Increase Font
+  - `Ctrl + -`: Decrease Font
+  - `Ctrl + 0`: Reset Font
+  - `Ctrl + Delete`: Clear All
+  - `ESC`: Blur Textarea
 
 - 📱 **Responsive Design**  
   Fully optimized for desktops, tablets, and mobile devices.
