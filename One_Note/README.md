@@ -48,20 +48,10 @@ All code is embedded in a single HTML file for simplicity. It uses:
 
 ## 📷 Screenshot
 
-> *(Add a screenshot here if you'd like to showcase the UI)*
-
-## 🌐 Live Demo
-
-> *(Optional: Add your hosted live link if available)*
+> ![Full-Screen Notepad - light mode - Screenshot](./l.png)
+> ![Full-Screen Notepad - dark mode - Screenshot](./d.png)
 
 ## 🧠 Inspiration
 
 This project was built to provide a distraction-free writing experience that’s simple, elegant, and functional – perfect for journaling, planning, or quick thoughts.
 
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-> Feel free to fork this repo, customize the UI, and expand it with features like export to file, localStorage support, or markdown rendering.
